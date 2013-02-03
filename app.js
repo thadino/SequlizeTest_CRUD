@@ -39,10 +39,12 @@ sequelize.authenticate().then(function (err) {
 var User = sequelize.define('user', {
   firstName: {
     type: Sequelize.STRING,
+      validate: { notNull: true },
     field: 'first_name' // Will result in an attribute that is firstName when user facing but first_name in the database
   },
   lastName: {
-    type: Sequelize.STRING
+    type: Sequelize.STRING,
+    validate: { notNull: false } // here we decide parameters for this field in the table
   }
 }, {
   freezeTableName: true, // Model tableName will be the same as the model name
@@ -53,7 +55,7 @@ var User = sequelize.define('user', {
 // insert into the table "User" (( force : false means you dont
 // drop the table on run where true drops the table.
 var s = true;
-if(s == true)
+if(s == false)
 {
 User.sync({force: false}).then(function () {
   // Table created
@@ -87,7 +89,9 @@ User.find({where: {firstName: 'Johna'}}).then(function (data, err) {
 });
 }
 
-
+var asb = true;
+if(asb == false)
+{
 // update existing user
 User.find({where:{firstName:'Johna'}}).then(function (data, err) {
   if(err){
@@ -103,6 +107,30 @@ User.find({where:{firstName:'Johna'}}).then(function (data, err) {
     })
   }
 });
+}
+
+
+var asb2 = true;
+if(asb2 == false)
+{
+return sequelize.transaction(function (t) {
+
+  // chain all your queries here. make sure you return them.
+  return User.create({
+    firstName: 'Abraham',
+    lastName: null
+  },   {transaction: t})
+
+}).then(function (result) {
+  console.log("Transaction has been committed");
+  // Transaction has been committed
+  // result is whatever the result of the promise chain returned to the transaction callback
+}).catch(function (err) {
+  console.log(err);
+  // Transaction has been rolled back
+  // err is whatever rejected the promise chain returned to the transaction callback
+});
+}
 
 
 
