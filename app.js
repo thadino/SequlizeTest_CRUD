@@ -19,7 +19,7 @@ var sequelize = new Sequelize('testtesttest', 'root', 'a', {
   dialect: 'mysql'
 });
 
-//  var sequelizer = new Sequelize('jdbc:mysql://localhost:3306/testtesttest?zeroDateTimeBehavior=convertToNull', 'root', 'wnr39esb', {
+//  var sequelizer = new Sequelize('jdbc:mysql://localhost:3306/testtesttest?zeroDateTimeBehavior=convertToNull', 'root', 'a', {
 
 
 
